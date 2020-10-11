@@ -11,7 +11,11 @@ class CommercialController {
   static Future getCommercialID(int id) async {
     return await http.get(Api.urlBase + Api.urlCommercial + id.toString());
   }
-
+    static Future getCommercialLogin(String login, String password) async {
+    var res = await http.get(Api.urlBase + Api.urlCommercial + login + "/" + password);
+    return res;
+  }
+  
   static Future<bool> postCommercial(Commercial commercial) async {
     var monCommercial = commercial.toMap();
     var commercialBody = convert.json.encode(monCommercial);

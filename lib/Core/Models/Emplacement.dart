@@ -1,49 +1,49 @@
 class Emplacement {
-  int _id_emplacment;
-  String _libelle_emplacement;
-  int _id_emplacment_parent;
- int _contient_article;
+  int _idEmplacement;
+  String _libelleEmplacement;
+  int _idEmplacementParent;
+ int _contientArticle;
 
   Emplacement(
-    this._libelle_emplacement,
-  this._id_emplacment_parent,
- this._contient_article,
+    this._libelleEmplacement,
+  this._idEmplacementParent,
+ this._contientArticle,
   );
 
-  Emplacement.WithId(this._id_emplacment, this._libelle_emplacement, this._id_emplacment_parent,this._contient_article);
+  Emplacement.WithId(this._idEmplacement, this._libelleEmplacement, this._idEmplacementParent,this._contientArticle);
 
-  int get id_emplacement => _id_emplacment;
-   String get libelle_emplacement => _libelle_emplacement;
-    int get id_emplacment_parent => _id_emplacment_parent;
-     int get contient_article => _contient_article;
+  int get id_emplacement => _idEmplacement;
+   String get libelleEmplacement => _libelleEmplacement;
+    int get idEmplacementParent => _idEmplacementParent;
+     int get contientArticle => _contientArticle;
 
 
-  set libelle_emplacement(String newlibelle_emplacement) {
-    _libelle_emplacement = newlibelle_emplacement;
+  set libelleEmplacement(String newlibelleEmplacement) {
+    _libelleEmplacement = newlibelleEmplacement;
   }
 
-  set id_emplacment_parent(int newid_emplacment_parent) {
-    _id_emplacment_parent = newid_emplacment_parent;
+  set idEmplacementParent(int newidEmplacementParent) {
+    _idEmplacementParent = newidEmplacementParent;
   }
-  set contient_article(int newcontient_article) {
-    _contient_article = newcontient_article;
+  set contientArticle(int newcontientArticle) {
+    _contientArticle = newcontientArticle;
   }
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-    map["libelle_emplacement"] = _libelle_emplacement;
-    map["id_emplacment_parent"] = _id_emplacment_parent;
-        map["contient_article"] = _contient_article;
-    if (_id_emplacment != null) {
-      map["id_emplacment"] = _id_emplacment;
+    map["libelleEmplacement"] = _libelleEmplacement;
+    map["idEmplacementParent"] = _idEmplacementParent;
+        map["contientArticle"] = _contientArticle;
+    if (_idEmplacement != null) {
+      map["idEmplacement"] = _idEmplacement;
     }
     return map;
   }
 
   Emplacement.fromObject(dynamic o) {
-    this._id_emplacment = o["id_emplacment"];
-    this.libelle_emplacement = o["libelle_emplacement"];
-    this.id_emplacment_parent = o["id_emplacment_parent"];
-    this.contient_article=o["contient_article"];
+    this._idEmplacement = o["idEmplacement"];
+    this.libelleEmplacement = o["libelleEmplacement"];
+    this.idEmplacementParent = o["idEmplacementParent"];
+    this.contientArticle=o["contientArticle"];
   }
 }

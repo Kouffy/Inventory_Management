@@ -1,39 +1,42 @@
 import 'package:inventory_management/Core/Controllers/Api.dart';
-import 'package:inventory_management/Core/Models/Administrateur.dart';
+import 'package:inventory_management/Core/Models/Emplacement.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
-class AdministrateurController {
-  static Future getAdministrateur() async {
-    return await http.get(Api.urlBase + Api.urlAdministrateur);
+class EmplacementController {
+  static Future getEmplacement() async {
+    return await http.get(Api.urlBase + Api.urlEmplacement);
   }
 
-  static Future getAdministrateurID(int id) async {
-    return await http.get(Api.urlBase + Api.urlAdministrateur + id.toString());
+  static Future getEmplacementID(int id) async {
+    return await http.get(Api.urlBase + Api.urlEmplacement + id.toString());
+  }
+  static Future getSousEmplacemens(int id) async {
+    return await http.get(Api.urlBase + Api.urlEmplacement + Api.urlGetSousEmplacements + id.toString());
   }
 
-  static Future<bool> postAdministrateur(Administrateur administrateur) async {
-    var monAdministrateur = administrateur.toMap();
-    var administrateurBody = convert.json.encode(monAdministrateur);
-    var res = await http.post(Api.urlBase + Api.urlAdministrateur,
-        headers: Api.header, body: administrateurBody);
+  static Future<bool> postEmplacement(Emplacement emplacement) async {
+    var monEmplacement = emplacement.toMap();
+    var emplacementBody = convert.json.encode(monEmplacement);
+    var res = await http.post(Api.urlBase + Api.urlEmplacement,
+        headers: Api.header, body: emplacementBody);
     print(res.statusCode);
     return Future.value(res.statusCode == 201 ? true : false);
   }
 
-  static Future<bool> putAdministrateur(Administrateur administrateur) async {
-    var monAdministrateur = administrateur.toMap();
-    var administrateurBody = convert.json.encode(monAdministrateur);
+  static Future<bool> putEmplacement(Emplacement emplacement) async {
+    var monEmplacement = emplacement.toMap();
+    var emplacementBody = convert.json.encode(monEmplacement);
     var res = await http.put(
-        Api.urlBase + Api.urlAdministrateur + administrateur.id.toString(),
+        Api.urlBase + Api.urlEmplacement + emplacement.id_emplacement.toString(),
         headers: Api.header,
-        body: administrateurBody);
+        body: emplacementBody);
     print(res.statusCode);
     return Future.value(res.statusCode == 204 ? true : false);
   }
 
-  static Future<bool> deleteAdministrateur(int id) async {
-    var res = await http.delete(Api.urlBase + Api.urlAdministrateur + id.toString(),
+  static Future<bool> deleteEmplacement(int id) async {
+    var res = await http.delete(Api.urlBase + Api.urlEmplacement + id.toString(),
         headers: Api.header);
     print(res.statusCode);
     return Future.value(res.statusCode == 200 ? true : false);

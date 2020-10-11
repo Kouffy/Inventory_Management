@@ -12,6 +12,10 @@ class ArticleController {
   static Future getArticleID(int id) async {
     return await http.get(Api.urlBase + Api.urlArticle + id.toString());
   }
+   static Future getArticlesEmplacment(int id) async {
+    return await http.get(Api.urlBase + Api.urlArticle + Api.urlGetArticlesEmplacment + id.toString());
+  }
+  
 
   static Future<bool> postArticle(Article article) async {
     var monArticle = article.toMap();

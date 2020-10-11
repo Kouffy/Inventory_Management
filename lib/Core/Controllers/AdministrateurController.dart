@@ -12,6 +12,11 @@ class AdministrateurController {
   static Future getAdministrateurID(int id) async {
     return await http.get(Api.urlBase + Api.urlAdministrateur + id.toString());
   }
+  
+  static Future getAdministrateurLogin(String login, String password) async {
+    var res = await http.get(Api.urlBase + Api.urlAdministrateur + login + "/" + password);
+    return res;
+  }
 
   static Future<bool> postAdministrateur(Administrateur administrateur) async {
     var monAdministrateur = administrateur.toMap();
@@ -26,7 +31,7 @@ class AdministrateurController {
     var monAdministrateur = administrateur.toMap();
     var administrateurBody = convert.json.encode(monAdministrateur);
     var res = await http.put(
-        Api.urlBase + Api.urlAdministrateur + administrateur.id.toString(),
+        Api.urlBase + Api.urlAdministrateur + administrateur.idAdministrateur.toString(),
         headers: Api.header,
         body: administrateurBody);
     print(res.statusCode);
