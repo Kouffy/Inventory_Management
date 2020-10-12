@@ -1,58 +1,48 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:inventory_management/Core/Controllers/EmplacementController.dart';
-import 'package:inventory_management/Core/Models/Emplacement.dart';
+import 'package:inventory_management/Core/Controllers/ArticleController.dart';
+import 'package:inventory_management/Core/Controllers/CommercialController.dart';
+import 'package:inventory_management/Core/Models/Commercial.dart';
 import 'package:inventory_management/Toasts.dart';
-import 'package:inventory_management/Ui/Aj_Emplacement.dart';
-import 'package:inventory_management/Ui/Aj_Sous_Emplacement.dart';
-import 'package:inventory_management/Ui/Liste_Article.dart';
-
-import 'Navigation.dart';
-
-class SousEmplacements extends StatefulWidget {
-  final String libelle;
-  final int id;
-  SousEmplacements(this.libelle, this.id);
+import 'package:inventory_management/Ui/Aj_Commercial.dart';
+import 'package:inventory_management/Ui/Navigation.dart';
+class ListeComerciaux extends StatefulWidget {
   @override
-  _SousEmplacementsState createState() => _SousEmplacementsState(libelle, id);
+  _ListeComerciauxState createState() => _ListeComerciauxState();
 }
 
-class _SousEmplacementsState extends State<SousEmplacements> {
-  String libelle;
-  int id;
-  _SousEmplacementsState(this.libelle, this.id);
-  List<Emplacement> sousEmplacements;
-  getSousEmplacments() {
-    EmplacementController.getSousEmplacemens(id).then((response) {
+class _ListeComerciauxState extends State<ListeComerciaux> {
+  List<Commercial> listCommerciaux;
+  getComerciaux(){
+    CommercialController.getCommercial().then((response) {
       Iterable list = json.decode(response.body);
-      List<Emplacement> emplacementList = List<Emplacement>();
-      emplacementList =
-          list.map((model) => Emplacement.fromObject(model)).toList();
+      List<Commercial> comercialList = List<Commercial>();
+      comercialList = list.map((model) => Commercial.fromObject(model)).toList();
       setState(() {
-        sousEmplacements = emplacementList;
-      });
+        listCommerciaux = comercialList;
+      }); 
     });
   }
-
   @override
   Widget build(BuildContext context) {
-    getSousEmplacments();
+    getComerciaux();
     return Scaffold(
       floatingActionButton: _buildFloatingButton(),
       appBar: AppBar(
-        title: Text('Sous Emplacments de $libelle'),
+        title: Text('Les Commerciaux'),
       ),
-      body: (sousEmplacements == null || sousEmplacements.length == 0)
+      body: (listCommerciaux == null || listCommerciaux.length == 0)
           ? Center(
               child: Text('Aucun elemnet a afficher'),
             )
-          : _buildEmplacementsList(),
+          : _buildCommerciauxList(),
     );
   }
-  Widget _buildEmplacementsList() {
+  
+  Widget _buildCommerciauxList() {
     return ListView.builder(
-      itemCount: sousEmplacements.length,
+      itemCount: listCommerciaux.length,
       itemBuilder: (context, index) {
         return GestureDetector(
             child: Card(
@@ -65,7 +55,7 @@ class _SousEmplacementsState extends State<SousEmplacements> {
                         SizedBox(
                           width: 10.0,
                         ),
-                        Text(sousEmplacements[index].libelleEmplacement),
+                        Text(listCommerciaux[index].nomCommercial + " " + listCommerciaux[index].prenomCommercial),
                          SizedBox(
                           width: 10.0,
                         ),
@@ -74,7 +64,7 @@ class _SousEmplacementsState extends State<SousEmplacements> {
                             "Modifier",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => Navigation.navigateToWidget(context, AjouterEmplacement(sousEmplacements[index])),
+                          onPressed: () => Navigation.navigateToWidget(context, AjouterCommercial(listCommerciaux[index])),
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -88,7 +78,7 @@ class _SousEmplacementsState extends State<SousEmplacements> {
                             "Supprimer",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => supprimerEmplacement(sousEmplacements[index].id_emplacement),
+                          onPressed: () => supprimerCommercial(listCommerciaux[index].idCommercial),
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -99,25 +89,21 @@ class _SousEmplacementsState extends State<SousEmplacements> {
                   ],
                 )),
             onTap: () {
-              Navigation.navigateToWidget(
-                  context,
-                  ListeArticles(sousEmplacements[index].libelleEmplacement, sousEmplacements[index].id_emplacement));
+             // Navigation.navigateToWidget(context, null);
             });
       },
     );
   }
- Widget _buildFloatingButton() {
+    Widget _buildFloatingButton() {
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(
-              new MaterialPageRoute(builder: (BuildContext context) => AjouterSousEmplacement(id,libelle)));
+              new MaterialPageRoute(builder: (BuildContext context) => AjouterCommercial(null)));
         });
   }
-
-
-  void supprimerEmplacement(int id) async {
-    var saveResponse = await EmplacementController.deleteEmplacement(id);
+      void supprimerCommercial(int id) async {
+    var saveResponse = await CommercialController.deleteCommercial(id);
     saveResponse == true
         ? Toasts.showSucssesToast("supprimé avec succès")
         : Toasts.showFailedToast("Erreur");

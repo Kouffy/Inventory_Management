@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_management/Ui/Drawer.dart';
+import 'package:inventory_management/Ui/Liste_Comerciaux.dart';
 import 'package:inventory_management/Ui/Liste_Emplacements.dart';
 import 'package:inventory_management/Ui/Navigation.dart';
 
@@ -26,10 +27,13 @@ class _HomeState extends State<Home> {
             ),
             onTap: () => Navigation.navigateToWidget(context, ListeEmplacement()),
           ),
-          Card(
-            child: ListTile(
-              title: Text("Liste des Commerciaux"),
+          GestureDetector(
+                      child: Card(
+              child: ListTile(
+                title: Text("Liste des Commerciaux"),
+              ),
             ),
+            onTap: () => Navigation.navigateToWidget(context, ListeComerciaux()),
           )
         ],
       ),

@@ -29,7 +29,7 @@ class CommercialController {
     var monCommercial = commercial.toMap();
     var commercialBody = convert.json.encode(monCommercial);
     var res = await http.put(
-        Api.urlBase + Api.urlCommercial + commercial.id.toString(),
+        Api.urlBase + Api.urlCommercial + commercial.idCommercial.toString(),
         headers: Api.header,
         body: commercialBody);
     print(res.statusCode);

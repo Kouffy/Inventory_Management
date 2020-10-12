@@ -10,15 +10,15 @@ import 'package:inventory_management/Ui/Liste_Article.dart';
 
 import 'Navigation.dart';
 
-class SousEmplacements extends StatefulWidget {
+class InventaireSousEmplacements extends StatefulWidget {
   final String libelle;
   final int id;
-  SousEmplacements(this.libelle, this.id);
+  InventaireSousEmplacements(this.libelle, this.id);
   @override
   _SousEmplacementsState createState() => _SousEmplacementsState(libelle, id);
 }
 
-class _SousEmplacementsState extends State<SousEmplacements> {
+class _SousEmplacementsState extends State<InventaireSousEmplacements> {
   String libelle;
   int id;
   _SousEmplacementsState(this.libelle, this.id);
@@ -41,7 +41,7 @@ class _SousEmplacementsState extends State<SousEmplacements> {
     return Scaffold(
       floatingActionButton: _buildFloatingButton(),
       appBar: AppBar(
-        title: Text('Sous Emplacments de $libelle'),
+        title: Text('Selectionner un Sous Emplacment de $libelle'),
       ),
       body: (sousEmplacements == null || sousEmplacements.length == 0)
           ? Center(
@@ -71,24 +71,10 @@ class _SousEmplacementsState extends State<SousEmplacements> {
                         ),
                         RaisedButton(
                           child: Text(
-                            "Modifier",
+                            "Effectuer un inventaire",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => Navigation.navigateToWidget(context, AjouterEmplacement(sousEmplacements[index])),
-                          color: Colors.green,
-                          textColor: Colors.black,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        RaisedButton(
-                          child: Text(
-                            "Supprimer",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () => supprimerEmplacement(sousEmplacements[index].id_emplacement),
+                          onPressed: () => null,
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -99,9 +85,7 @@ class _SousEmplacementsState extends State<SousEmplacements> {
                   ],
                 )),
             onTap: () {
-              Navigation.navigateToWidget(
-                  context,
-                  ListeArticles(sousEmplacements[index].libelleEmplacement, sousEmplacements[index].id_emplacement));
+              
             });
       },
     );
@@ -116,10 +100,5 @@ class _SousEmplacementsState extends State<SousEmplacements> {
   }
 
 
-  void supprimerEmplacement(int id) async {
-    var saveResponse = await EmplacementController.deleteEmplacement(id);
-    saveResponse == true
-        ? Toasts.showSucssesToast("supprimé avec succès")
-        : Toasts.showFailedToast("Erreur");
-  }
+
 }

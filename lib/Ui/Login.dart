@@ -10,20 +10,22 @@ import 'package:inventory_management/Ui/Home.dart';
 import 'package:inventory_management/Ui/Home_Commercial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Navigation.dart';
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  int selectedRadio;
+  int selectedRadio = 1;
   TextEditingController loginController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   setSelectedRadio(int val) {
-  setState(() {
-    selectedRadio = val;
-  });
-}
+    setState(() {
+      selectedRadio = val;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,30 +35,30 @@ class _LoginState extends State<Login> {
       body: ListView(
         children: [
           ButtonBar(
-  alignment: MainAxisAlignment.center,
-  children: <Widget>[
-    Text("Admin"),
-    Radio(
-      value: 1,
-      groupValue: selectedRadio,
-      activeColor: Colors.green,
-      onChanged: (val) {
-        print("Radio $val");
-        setSelectedRadio(val);
-      },
-    ),
-    Text("Commercial"),
-    Radio(
-      value: 2,
-      groupValue: selectedRadio,
-      activeColor: Colors.blue,
-      onChanged: (val) {
-        print("Radio $val");
-        setSelectedRadio(val);
-      },
-    ),
-  ],
-),
+            alignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("Admin"),
+              Radio(
+                value: 1,
+                groupValue: selectedRadio,
+                activeColor: Colors.green,
+                onChanged: (val) {
+                  print("Radio $val");
+                  setSelectedRadio(val);
+                },
+              ),
+              Text("Commercial"),
+              Radio(
+                value: 2,
+                groupValue: selectedRadio,
+                activeColor: Colors.blue,
+                onChanged: (val) {
+                  print("Radio $val");
+                  setSelectedRadio(val);
+                },
+              ),
+            ],
+          ),
           TextField(
             controller: loginController,
             decoration: InputDecoration(
@@ -77,18 +79,14 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(10.0)),
               textColor: Colors.white,
               padding: const EdgeInsets.all(0.0),
-              onPressed:() {
-                if(selectedRadio==1)
-                {
+              onPressed: () {
+                if (selectedRadio == 1) {
                   loginInAdmin();
-                }
-                else if(selectedRadio == 2)
-                {
+                } else if (selectedRadio == 2) {
                   loginInCommercial();
-                }
-                else
-                {
-                  Toasts.showFailedToast("Selectionner le type de votre identité");
+                } else {
+                  Toasts.showFailedToast(
+                      "Selectionner le type de votre identité");
                 }
               },
               child: Container(
@@ -110,52 +108,49 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
   void loginInAdmin() async {
-    try
-    {
-    Response userlogedin = await AdministrateurController.getAdministrateurLogin(
-        loginController.text, passwordController.text);
-        print(userlogedin.statusCode);
-    if (userlogedin.statusCode == 200) {
-      var resulat = json.decode(userlogedin.body);
-      Administrateur user = Administrateur.fromObject(resulat);
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      pref.setBool('is_logedin', true);
-      pref.setInt('id', user.idAdministrateur);
-      pref.setString('nom', user.nomAdministrateur);
-      pref.setString('prenom', user.prenomAdministrateur);
-      Navigation.navigateToWidget(context, Home());
-    } else {
+    try {
+      Response userlogedin =
+          await AdministrateurController.getAdministrateurLogin(
+              loginController.text, passwordController.text);
       print(userlogedin.statusCode);
-      Toasts.showFailedToast("Connection échoué");
-    }
-    }
-    catch(e)
-    {
+      if (userlogedin.statusCode == 200) {
+        var resulat = json.decode(userlogedin.body);
+        Administrateur user = Administrateur.fromObject(resulat);
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setBool('is_logedin', true);
+        pref.setInt('id', user.idAdministrateur);
+        pref.setString('nom', user.nomAdministrateur);
+        pref.setString('prenom', user.prenomAdministrateur);
+        Navigation.navigateToWidget(context, Home());
+      } else {
+        print(userlogedin.statusCode);
+        Toasts.showFailedToast("Connection échoué");
+      }
+    } catch (e) {
       Toasts.showFailedToast("Serveur indisponible");
     }
   }
-   void loginInCommercial() async {
-    try
-    {
-    Response userlogedin = await CommercialController.getCommercialLogin(
-        loginController.text, passwordController.text);
-        print(userlogedin.statusCode);
-    if (userlogedin.statusCode == 200) {
-      var resulat = json.decode(userlogedin.body);
-      Commercial user = Commercial.fromObject(resulat);
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      pref.setBool('is_logedin', true);
-      pref.setInt('id', user.id);
-      pref.setString('nom', user.nom);
-      pref.setString('prenom', user.prenom);
-      Navigation.navigateToWidget(context, HomeCommercial());
-    } else {
-      Toasts.showFailedToast("Connection échoué");
-    }
-    }
-    catch(e)
-    {
+
+  void loginInCommercial() async {
+    try {
+      Response userlogedin = await CommercialController.getCommercialLogin(
+          loginController.text, passwordController.text);
+      print(userlogedin.statusCode);
+      if (userlogedin.statusCode == 200) {
+        var resulat = json.decode(userlogedin.body);
+        Commercial user = Commercial.fromObject(resulat);
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setBool('is_logedin', true);
+        pref.setInt('id', user.idCommercial);
+        pref.setString('nom', user.nomCommercial);
+        pref.setString('prenom', user.prenomCommercial);
+        Navigation.navigateToWidget(context, HomeCommercial());
+      } else {
+        Toasts.showFailedToast("Connection échoué");
+      }
+    } catch (e) {
       Toasts.showFailedToast("Serveur indisponible");
     }
   }

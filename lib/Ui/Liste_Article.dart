@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:inventory_management/Core/Controllers/ArticleController.dart';
 import 'package:inventory_management/Core/Models/Article.dart';
+import 'package:inventory_management/Toasts.dart';
 import 'package:inventory_management/Ui/Aj_Article.dart';
 
 import 'Navigation.dart';
@@ -61,7 +62,35 @@ class _ListeArticlesState extends State<ListeArticles> {
                         SizedBox(
                           width: 10.0,
                         ),
-                        Text(listeArticles[index].libelleArticle)
+                        Text(listeArticles[index].libelleArticle),
+                         SizedBox(
+                          width: 10.0,
+                        ),
+                        RaisedButton(
+                          child: Text(
+                            "Modifier",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () => Navigation.navigateToWidget(context, AjouterArticle(id,libelle,listeArticles[index])),
+                          color: Colors.green,
+                          textColor: Colors.black,
+                          padding: EdgeInsets.all(8.0),
+                          splashColor: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        RaisedButton(
+                          child: Text(
+                            "Supprimer",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () => supprimerArticle(listeArticles[index].id),
+                          color: Colors.green,
+                          textColor: Colors.black,
+                          padding: EdgeInsets.all(8.0),
+                          splashColor: Colors.grey,
+                        ),
                       ],
                     ),
                   ],
@@ -78,7 +107,13 @@ class _ListeArticlesState extends State<ListeArticles> {
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(
-              new MaterialPageRoute(builder: (BuildContext context) => AjouterArticle(id, libelle)));
+              new MaterialPageRoute(builder: (BuildContext context) => AjouterArticle(id, libelle,null)));
         });
+  }
+    void supprimerArticle(int id) async {
+    var saveResponse = await ArticleController.deleteArticle(id);
+    saveResponse == true
+        ? Toasts.showSucssesToast("supprimé avec succès")
+        : Toasts.showFailedToast("Erreur");
   }
 }

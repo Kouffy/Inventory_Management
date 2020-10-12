@@ -1,55 +1,55 @@
 class Commercial {
-  int _id;
-  String _nom;
-  String _prenom;
- String _login;
- String _password;
+  int _idCommercial;
+  String _nomCommercial;
+  String _prenomCommercial;
+ String _loginCommercial;
+ String _passwordCommercial;
 
   Commercial(
-    this._nom,
-  this._prenom,
- this._login,
-this._password,
+    this._nomCommercial,
+  this._prenomCommercial,
+ this._loginCommercial,
+this._passwordCommercial,
   );
 
-  Commercial.WithId(this._nom, this._prenom, this._login,this._password);
+  Commercial.WithidCommercial(this._nomCommercial, this._prenomCommercial, this._loginCommercial,this._passwordCommercial);
 
-  int get id => _id;
-   String get nom => _nom;
-    String get prenom => _prenom;
-     String get login => _login;
-       String get password => _password;
+  int get idCommercial => _idCommercial;
+   String get nomCommercial => _nomCommercial;
+    String get prenomCommercial => _prenomCommercial;
+     String get loginCommercial => _loginCommercial;
+       String get passwordCommercial => _passwordCommercial;
 
-  set nom(String newnom) {
-    _nom = newnom;
+  set nomCommercial(String newnomCommercial) {
+    _nomCommercial = newnomCommercial;
   }
 
-  set prenom(String newprenom) {
-    _prenom = newprenom;
+  set prenomCommercial(String newprenomCommercial) {
+    _prenomCommercial = newprenomCommercial;
   }
-  set login(String newlogin) {
-    _login = newlogin;
+  set loginCommercial(String newloginCommercial) {
+    _loginCommercial = newloginCommercial;
   }
-    set password(String newpassword) {
-    _password = newpassword;
+    set passwordCommercial(String newpasswordCommercial) {
+    _passwordCommercial = newpasswordCommercial;
   }
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-    map["nom"] = _nom;
-    map["prenom"] = _prenom;
-        map["login"] = _login;
-    map["password"] = _password;
-    if (_id != null) {
-      map["id"] = _id;
+    map["nomCommercial"] = _nomCommercial;
+    map["prenomCommercial"] = _prenomCommercial;
+        map["loginCommercial"] = _loginCommercial;
+    map["passwordCommercial"] = _passwordCommercial;
+    if (_idCommercial != null) {
+      map["idCommercial"] = _idCommercial;
     }
     return map;
   }
 
   Commercial.fromObject(dynamic o) {
-    this._id = o["id"];
-    this.nom = o["nom"];
-    this.prenom = o["prenom"];
-    this.login=o["login"];
-    this.password=o["password"];
+    this._idCommercial = o["idCommercial"];
+    this.nomCommercial = o["nomCommercial"];
+    this.prenomCommercial = o["prenomCommercial"];
+    this.loginCommercial=o["loginCommercial"];
+    this.passwordCommercial=o["passwordCommercial"];
   }
 }
