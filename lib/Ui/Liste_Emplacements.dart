@@ -21,9 +21,11 @@ class _ListeEmplacementState extends State<ListeEmplacement> {
       List<Emplacement> emplacementList = List<Emplacement>();
       emplacementList =
           list.map((model) => Emplacement.fromObject(model)).toList();
-      setState(() {
-        mesEmplacements = emplacementList;
-      });
+      if (this.mounted) {
+        setState(() {
+          mesEmplacements = emplacementList;
+        });
+      }
     });
   }
 
@@ -67,7 +69,8 @@ class _ListeEmplacementState extends State<ListeEmplacement> {
                             "Modifier",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => Navigation.navigateToWidget(context, AjouterEmplacement(mesEmplacements[index])),
+                          onPressed: () => Navigation.navigateToWidget(context,
+                              AjouterEmplacement(mesEmplacements[index])),
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -81,7 +84,8 @@ class _ListeEmplacementState extends State<ListeEmplacement> {
                             "Supprimer",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => supprimerEmplacement(mesEmplacements[index].id_emplacement),
+                          onPressed: () => supprimerEmplacement(
+                              mesEmplacements[index].id_emplacement),
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -116,5 +120,4 @@ class _ListeEmplacementState extends State<ListeEmplacement> {
         ? Toasts.showSucssesToast("supprimé avec succès")
         : Toasts.showFailedToast("Erreur");
   }
-
 }

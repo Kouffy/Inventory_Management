@@ -43,7 +43,6 @@ class _LoginState extends State<Login> {
                 groupValue: selectedRadio,
                 activeColor: Colors.green,
                 onChanged: (val) {
-                  print("Radio $val");
                   setSelectedRadio(val);
                 },
               ),
@@ -53,7 +52,6 @@ class _LoginState extends State<Login> {
                 groupValue: selectedRadio,
                 activeColor: Colors.blue,
                 onChanged: (val) {
-                  print("Radio $val");
                   setSelectedRadio(val);
                 },
               ),

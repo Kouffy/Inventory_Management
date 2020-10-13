@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inventory_management/Core/Helpers/SessionManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inventory_management/Ui/Navigation.dart';
+
 class AppDrawer extends StatefulWidget {
   @override
   _AppDrawerState createState() => _AppDrawerState();
@@ -13,11 +14,13 @@ class _AppDrawerState extends State<AppDrawer> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     SessionManager.isUserLoggedIn().then((isLogged) {
       if (isLogged) {
-        setState(() {
-          nomuser = prefs.getString('nom');
-          nomuser += " ";
-          nomuser += prefs.getString('prenom');
-        });
+        if (this.mounted) {
+          setState(() {
+            nomuser = prefs.getString('nom');
+            nomuser += " ";
+            nomuser += prefs.getString('prenom');
+          });
+        }
       }
     });
   }

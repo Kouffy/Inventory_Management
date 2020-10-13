@@ -6,6 +6,7 @@ import 'package:inventory_management/Core/Models/Emplacement.dart';
 import 'package:inventory_management/Toasts.dart';
 import 'package:inventory_management/Ui/Aj_Emplacement.dart';
 import 'package:inventory_management/Ui/Aj_Sous_Emplacement.dart';
+import 'package:inventory_management/Ui/Effectuer_Inventaire.dart';
 import 'package:inventory_management/Ui/Liste_Article.dart';
 
 import 'Navigation.dart';
@@ -29,9 +30,11 @@ class _SousEmplacementsState extends State<InventaireSousEmplacements> {
       List<Emplacement> emplacementList = List<Emplacement>();
       emplacementList =
           list.map((model) => Emplacement.fromObject(model)).toList();
-      setState(() {
-        sousEmplacements = emplacementList;
-      });
+      if (this.mounted) {
+        setState(() {
+          sousEmplacements = emplacementList;
+        });
+      }
     });
   }
 
@@ -50,6 +53,7 @@ class _SousEmplacementsState extends State<InventaireSousEmplacements> {
           : _buildEmplacementsList(),
     );
   }
+
   Widget _buildEmplacementsList() {
     return ListView.builder(
       itemCount: sousEmplacements.length,
@@ -66,7 +70,7 @@ class _SousEmplacementsState extends State<InventaireSousEmplacements> {
                           width: 10.0,
                         ),
                         Text(sousEmplacements[index].libelleEmplacement),
-                         SizedBox(
+                        SizedBox(
                           width: 10.0,
                         ),
                         RaisedButton(
@@ -74,7 +78,10 @@ class _SousEmplacementsState extends State<InventaireSousEmplacements> {
                             "Effectuer un inventaire",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => null,
+                          onPressed: () => Navigation.navigateToWidget(
+                              context,
+                              EffectuerInventaire(
+                                  sousEmplacements[index].id_emplacement)),
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -84,21 +91,18 @@ class _SousEmplacementsState extends State<InventaireSousEmplacements> {
                     ),
                   ],
                 )),
-            onTap: () {
-              
-            });
+            onTap: () {});
       },
     );
   }
- Widget _buildFloatingButton() {
+
+  Widget _buildFloatingButton() {
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(
-              new MaterialPageRoute(builder: (BuildContext context) => AjouterSousEmplacement(id,libelle)));
+          Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  AjouterSousEmplacement(id, libelle)));
         });
   }
-
-
-
 }

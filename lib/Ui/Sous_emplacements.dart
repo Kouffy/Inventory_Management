@@ -29,9 +29,11 @@ class _SousEmplacementsState extends State<SousEmplacements> {
       List<Emplacement> emplacementList = List<Emplacement>();
       emplacementList =
           list.map((model) => Emplacement.fromObject(model)).toList();
-      setState(() {
-        sousEmplacements = emplacementList;
-      });
+      if (this.mounted) {
+        setState(() {
+          sousEmplacements = emplacementList;
+        });
+      }
     });
   }
 
@@ -50,6 +52,7 @@ class _SousEmplacementsState extends State<SousEmplacements> {
           : _buildEmplacementsList(),
     );
   }
+
   Widget _buildEmplacementsList() {
     return ListView.builder(
       itemCount: sousEmplacements.length,
@@ -66,7 +69,7 @@ class _SousEmplacementsState extends State<SousEmplacements> {
                           width: 10.0,
                         ),
                         Text(sousEmplacements[index].libelleEmplacement),
-                         SizedBox(
+                        SizedBox(
                           width: 10.0,
                         ),
                         RaisedButton(
@@ -74,7 +77,8 @@ class _SousEmplacementsState extends State<SousEmplacements> {
                             "Modifier",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => Navigation.navigateToWidget(context, AjouterEmplacement(sousEmplacements[index])),
+                          onPressed: () => Navigation.navigateToWidget(context,
+                              AjouterEmplacement(sousEmplacements[index])),
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -88,7 +92,8 @@ class _SousEmplacementsState extends State<SousEmplacements> {
                             "Supprimer",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => supprimerEmplacement(sousEmplacements[index].id_emplacement),
+                          onPressed: () => supprimerEmplacement(
+                              sousEmplacements[index].id_emplacement),
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -101,20 +106,22 @@ class _SousEmplacementsState extends State<SousEmplacements> {
             onTap: () {
               Navigation.navigateToWidget(
                   context,
-                  ListeArticles(sousEmplacements[index].libelleEmplacement, sousEmplacements[index].id_emplacement));
+                  ListeArticles(sousEmplacements[index].libelleEmplacement,
+                      sousEmplacements[index].id_emplacement));
             });
       },
     );
   }
- Widget _buildFloatingButton() {
+
+  Widget _buildFloatingButton() {
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(
-              new MaterialPageRoute(builder: (BuildContext context) => AjouterSousEmplacement(id,libelle)));
+          Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  AjouterSousEmplacement(id, libelle)));
         });
   }
-
 
   void supprimerEmplacement(int id) async {
     var saveResponse = await EmplacementController.deleteEmplacement(id);

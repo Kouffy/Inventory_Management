@@ -12,7 +12,7 @@ class Article {
 
   int get id => _idArticle;
    String get libelleArticle => _libelleArticle;
-    int get idEmplacment => _idEmplacement;
+    int get idEmplacement => _idEmplacement;
 
 
   set libelleArticle(String newlibelle) {

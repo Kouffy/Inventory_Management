@@ -7,6 +7,7 @@ import 'package:inventory_management/Core/Models/Commercial.dart';
 import 'package:inventory_management/Toasts.dart';
 import 'package:inventory_management/Ui/Aj_Commercial.dart';
 import 'package:inventory_management/Ui/Navigation.dart';
+
 class ListeComerciaux extends StatefulWidget {
   @override
   _ListeComerciauxState createState() => _ListeComerciauxState();
@@ -14,16 +15,20 @@ class ListeComerciaux extends StatefulWidget {
 
 class _ListeComerciauxState extends State<ListeComerciaux> {
   List<Commercial> listCommerciaux;
-  getComerciaux(){
+  getComerciaux() {
     CommercialController.getCommercial().then((response) {
       Iterable list = json.decode(response.body);
       List<Commercial> comercialList = List<Commercial>();
-      comercialList = list.map((model) => Commercial.fromObject(model)).toList();
-      setState(() {
-        listCommerciaux = comercialList;
-      }); 
+      comercialList =
+          list.map((model) => Commercial.fromObject(model)).toList();
+      if (this.mounted) {
+        setState(() {
+          listCommerciaux = comercialList;
+        });
+      }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     getComerciaux();
@@ -39,7 +44,7 @@ class _ListeComerciauxState extends State<ListeComerciaux> {
           : _buildCommerciauxList(),
     );
   }
-  
+
   Widget _buildCommerciauxList() {
     return ListView.builder(
       itemCount: listCommerciaux.length,
@@ -55,8 +60,10 @@ class _ListeComerciauxState extends State<ListeComerciaux> {
                         SizedBox(
                           width: 10.0,
                         ),
-                        Text(listCommerciaux[index].nomCommercial + " " + listCommerciaux[index].prenomCommercial),
-                         SizedBox(
+                        Text(listCommerciaux[index].nomCommercial +
+                            " " +
+                            listCommerciaux[index].prenomCommercial),
+                        SizedBox(
                           width: 10.0,
                         ),
                         RaisedButton(
@@ -64,7 +71,8 @@ class _ListeComerciauxState extends State<ListeComerciaux> {
                             "Modifier",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => Navigation.navigateToWidget(context, AjouterCommercial(listCommerciaux[index])),
+                          onPressed: () => Navigation.navigateToWidget(context,
+                              AjouterCommercial(listCommerciaux[index])),
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -78,7 +86,8 @@ class _ListeComerciauxState extends State<ListeComerciaux> {
                             "Supprimer",
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () => supprimerCommercial(listCommerciaux[index].idCommercial),
+                          onPressed: () => supprimerCommercial(
+                              listCommerciaux[index].idCommercial),
                           color: Colors.green,
                           textColor: Colors.black,
                           padding: EdgeInsets.all(8.0),
@@ -89,20 +98,22 @@ class _ListeComerciauxState extends State<ListeComerciaux> {
                   ],
                 )),
             onTap: () {
-             // Navigation.navigateToWidget(context, null);
+              // Navigation.navigateToWidget(context, null);
             });
       },
     );
   }
-    Widget _buildFloatingButton() {
+
+  Widget _buildFloatingButton() {
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(
-              new MaterialPageRoute(builder: (BuildContext context) => AjouterCommercial(null)));
+          Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => AjouterCommercial(null)));
         });
   }
-      void supprimerCommercial(int id) async {
+
+  void supprimerCommercial(int id) async {
     var saveResponse = await CommercialController.deleteCommercial(id);
     saveResponse == true
         ? Toasts.showSucssesToast("supprimé avec succès")

@@ -15,6 +15,9 @@ class ArticleController {
    static Future getArticlesEmplacment(int id) async {
     return await http.get(Api.urlBase + Api.urlArticle + Api.urlGetArticlesEmplacment + id.toString());
   }
+     static Future getArticleIdEmplacment(int id) async {
+    return await http.get(Api.urlBase + Api.urlArticle + Api.urlGetArticleIdEmplacment + id.toString());
+  }
   
 
   static Future<bool> postArticle(Article article) async {
