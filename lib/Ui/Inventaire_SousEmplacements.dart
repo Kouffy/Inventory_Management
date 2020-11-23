@@ -60,37 +60,33 @@ class _SousEmplacementsState extends State<InventaireSousEmplacements> {
       itemBuilder: (context, index) {
         return GestureDetector(
             child: Card(
-                color: Colors.blue[50],
-                elevation: 2.0,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(sousEmplacements[index].libelleEmplacement),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        RaisedButton(
+              child: ListTile(
+                title: Text(sousEmplacements[index].libelleEmplacement),
+                leading: Image.asset(
+                  "assets/images/emplacement.png",
+                  height: 40,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                      RaisedButton(
                           child: Text(
-                            "Effectuer un inventaire",
-                            style: TextStyle(fontSize: 20),
+                            "Modifier",
+                            style: TextStyle(fontSize: 15),
                           ),
-                          onPressed: () => Navigation.navigateToWidget(
+                           onPressed: () => Navigation.navigateToWidget(
                               context,
                               EffectuerInventaire(
                                   sousEmplacements[index].id_emplacement)),
-                          color: Colors.green,
-                          textColor: Colors.black,
+                          color: Colors.lightBlue,
+                          textColor: Colors.white,
                           padding: EdgeInsets.all(8.0),
                           splashColor: Colors.grey,
                         ),
-                      ],
-                    ),
                   ],
-                )),
+                ),
+              ),
+            ),
             onTap: () {});
       },
     );

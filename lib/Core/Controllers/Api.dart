@@ -1,5 +1,5 @@
 class Api {
-  static String urlBase = 'http://192.168.11.105:9090/api/';
+  static String urlBase = 'http://192.168.187.1:9090/api/';
   static String urlAdministrateur = 'Administrateur/';
   static String urlGetSousEmplacements = 'GetSousEmplacments/';
   static String urlGetArticleIdEmplacment = 'GetArticleIdEmplacment/';

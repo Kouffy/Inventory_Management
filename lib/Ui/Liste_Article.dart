@@ -53,50 +53,48 @@ class _ListeArticlesState extends State<ListeArticles> {
       itemBuilder: (context, index) {
         return GestureDetector(
             child: Card(
-                color: Colors.blue[50],
-                elevation: 2.0,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(listeArticles[index].libelleArticle),
-                         SizedBox(
-                          width: 10.0,
-                        ),
-                        RaisedButton(
-                          child: Text(
-                            "Modifier",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () => Navigation.navigateToWidget(context, AjouterArticle(id,libelle,listeArticles[index])),
-                          color: Colors.green,
-                          textColor: Colors.black,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        RaisedButton(
-                          child: Text(
-                            "Supprimer",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () => supprimerArticle(listeArticles[index].id),
-                          color: Colors.green,
-                          textColor: Colors.black,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: Colors.grey,
-                        ),
-                      ],
+              child: ListTile(
+                title: Text(listeArticles[index].libelleArticle),
+                leading: Image.asset(
+                  "assets/images/emplacement.png",
+                  height: 40,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    RaisedButton(
+                      child: Text(
+                        "Modifier",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () => Navigation.navigateToWidget(context,
+                          AjouterArticle(id, libelle, listeArticles[index])),
+                      color: Colors.lightBlue,
+                      textColor: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      splashColor: Colors.grey,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    RaisedButton(
+                      child: Text(
+                        "Supprimer",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () =>
+                          supprimerArticle(listeArticles[index].id),
+                      color: Colors.red,
+                      textColor: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      splashColor: Colors.grey,
                     ),
                   ],
-                )),
+                ),
+              ),
+            ),
             onTap: () {
-             // Navigation.navigateToWidget(context, null);
+              // Navigation.navigateToWidget(context, null);
             });
       },
     );
@@ -106,11 +104,13 @@ class _ListeArticlesState extends State<ListeArticles> {
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(
-              new MaterialPageRoute(builder: (BuildContext context) => AjouterArticle(id, libelle,null)));
+          Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  AjouterArticle(id, libelle, null)));
         });
   }
-    void supprimerArticle(int id) async {
+
+  void supprimerArticle(int id) async {
     var saveResponse = await ArticleController.deleteArticle(id);
     saveResponse == true
         ? Toasts.showSucssesToast("supprimé avec succès")

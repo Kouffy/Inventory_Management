@@ -51,52 +51,48 @@ class _ListeComerciauxState extends State<ListeComerciaux> {
       itemBuilder: (context, index) {
         return GestureDetector(
             child: Card(
-                color: Colors.blue[50],
-                elevation: 2.0,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(listCommerciaux[index].nomCommercial +
-                            " " +
-                            listCommerciaux[index].prenomCommercial),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        RaisedButton(
-                          child: Text(
-                            "Modifier",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () => Navigation.navigateToWidget(context,
-                              AjouterCommercial(listCommerciaux[index])),
-                          color: Colors.green,
-                          textColor: Colors.black,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        RaisedButton(
-                          child: Text(
-                            "Supprimer",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () => supprimerCommercial(
-                              listCommerciaux[index].idCommercial),
-                          color: Colors.green,
-                          textColor: Colors.black,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: Colors.grey,
-                        ),
-                      ],
+              child: ListTile(
+                title: Text(listCommerciaux[index].nomCommercial +
+                    " " +
+                    listCommerciaux[index].prenomCommercial),
+                leading: Image.asset(
+                  "assets/images/emplacement.png",
+                  height: 40,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    RaisedButton(
+                      child: Text(
+                        "Modifier",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () => Navigation.navigateToWidget(
+                          context, AjouterCommercial(listCommerciaux[index])),
+                      color: Colors.lightBlue,
+                      textColor: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      splashColor: Colors.grey,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    RaisedButton(
+                      child: Text(
+                        "Supprimer",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () => supprimerCommercial(
+                          listCommerciaux[index].idCommercial),
+                      color: Colors.red,
+                      textColor: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      splashColor: Colors.grey,
                     ),
                   ],
-                )),
+                ),
+              ),
+            ),
             onTap: () {
               // Navigation.navigateToWidget(context, null);
             });

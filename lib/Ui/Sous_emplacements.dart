@@ -59,50 +59,46 @@ class _SousEmplacementsState extends State<SousEmplacements> {
       itemBuilder: (context, index) {
         return GestureDetector(
             child: Card(
-                color: Colors.blue[50],
-                elevation: 2.0,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(sousEmplacements[index].libelleEmplacement),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        RaisedButton(
-                          child: Text(
-                            "Modifier",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () => Navigation.navigateToWidget(context,
-                              AjouterEmplacement(sousEmplacements[index])),
-                          color: Colors.green,
-                          textColor: Colors.black,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        RaisedButton(
-                          child: Text(
-                            "Supprimer",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () => supprimerEmplacement(
-                              sousEmplacements[index].id_emplacement),
-                          color: Colors.green,
-                          textColor: Colors.black,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: Colors.grey,
-                        ),
-                      ],
+              child: ListTile(
+                title: Text(sousEmplacements[index].libelleEmplacement),
+                leading: Image.asset(
+                  "assets/images/emplacement.png",
+                  height: 40,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    RaisedButton(
+                      child: Text(
+                        "Modifier",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () => Navigation.navigateToWidget(
+                          context, AjouterEmplacement(sousEmplacements[index])),
+                      color: Colors.lightBlue,
+                      textColor: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      splashColor: Colors.grey,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    RaisedButton(
+                      child: Text(
+                        "Supprimer",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () => supprimerEmplacement(
+                          sousEmplacements[index].id_emplacement),
+                      color: Colors.red,
+                      textColor: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      splashColor: Colors.grey,
                     ),
                   ],
-                )),
+                ),
+              ),
+            ),
             onTap: () {
               Navigation.navigateToWidget(
                   context,

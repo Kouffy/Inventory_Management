@@ -10,7 +10,7 @@ class ListeInventaire extends StatefulWidget {
 
 class _ListeInventaireState extends State<ListeInventaire> {
   List<Inventaire> mesInventaires;
-  getEmplacments() {
+  getInventaires() {
     InventaireController.getInventaire().then((response) {
       Iterable list = json.decode(response.body);
       List<Inventaire> inventaireList = List<Inventaire>();
@@ -26,7 +26,7 @@ class _ListeInventaireState extends State<ListeInventaire> {
 
   @override
   Widget build(BuildContext context) {
-    getEmplacments();
+    getInventaires();
     return Scaffold(
       floatingActionButton: _buildFloatingButton(),
       appBar: AppBar(

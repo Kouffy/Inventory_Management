@@ -50,6 +50,7 @@ class _AjouterSousEmplacementState extends State<AjouterSousEmplacement> {
           ]),
         ));
   }
+  
     void enregistrerEmplacement() async {
      Emplacement emplacement = new Emplacement(libelleController.text,id,1);
     var saveResponse = await EmplacementController.postEmplacement(emplacement);

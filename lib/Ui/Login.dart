@@ -17,6 +17,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  FocusNode emailNode=FocusNode() , passwordNode=FocusNode();
   int selectedRadio = 1;
   TextEditingController loginController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
@@ -32,9 +33,23 @@ class _LoginState extends State<Login> {
       appBar: new AppBar(
         title: new Text('Authentification'),
       ),
-      body: ListView(
-        children: [
-          ButtonBar(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/logo_inventory.png",height: 200.0,width: 200.0,),
+              SizedBox(height: 10,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ButtonBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
               Text("Admin"),
@@ -57,56 +72,140 @@ class _LoginState extends State<Login> {
               ),
             ],
           ),
-          TextField(
-            controller: loginController,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Login",
-                hintStyle: TextStyle(color: Colors.grey[400])),
-          ),
-          TextField(
-            controller: passwordController,
-            obscureText: true,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Password",
-                hintStyle: TextStyle(color: Colors.grey[400])),
-          ),
-          RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              textColor: Colors.white,
-              padding: const EdgeInsets.all(0.0),
-              onPressed: () {
-                if (selectedRadio == 1) {
-                  loginInAdmin();
-                } else if (selectedRadio == 2) {
-                  loginInCommercial();
-                } else {
-                  Toasts.showFailedToast(
-                      "Selectionner le type de votre identité");
-                }
-              },
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(colors: [
-                      Color.fromRGBO(143, 148, 251, 1),
-                      Color.fromRGBO(143, 148, 251, .6),
-                    ])),
-                padding: EdgeInsets.all(10.0),
-                child: Center(
-                  child: Text('Se connecter',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                    Text("Login",style: TextStyle(fontSize: 30,color: Color(0XFF0E2433)),),
+                    SizedBox(height: 30,),
+                    emailText(),
+                    SizedBox(height: 20,),
+                    passwordText(),
+                    SizedBox(height: 15,),
+                    Align(
+                      alignment: Alignment.centerRight,
+                        child: Text("Mot de pass oublié ?",style: TextStyle(color: Color(0XFF0E2433),fontSize: 12,fontWeight: FontWeight.w500),textAlign: TextAlign.end,)),
+                   SizedBox(height: 20,),
+                    GestureDetector(
+                      onTap: (){
+                        if(selectedRadio == 1)
+                        {
+                          loginInAdmin();
+                        }
+                        else if(selectedRadio == 2)
+                        {
+                           loginInCommercial();
+                        }
+                        else
+                        {
+                          Toasts.showSucssesToast("Veillez sellectionner le type d'identification");
+                        }
+                      },
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width/2,
+                          padding: EdgeInsets.symmetric(horizontal: 30,vertical: 15),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: Color(0XFF0E2433),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0,2),
+                                blurRadius: 2
+                              )
+                            ]
+                          ),
+                          child:  Text("Login",style: TextStyle(color: Colors.white,fontSize: 20),textAlign: TextAlign.center,),
+                          ),
+                      ),
+                    ),
+                    SizedBox(height: 10.0,)
+                  ],
                 ),
-              )),
-        ],
+              ),
+
+            ],
+          ),
+        ),
       ),
     );
   }
+Container emailText() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey[200],
+              blurRadius: 3,
+              offset: Offset(0,4),
+            )
+          ]),
+      child: Padding(
+        padding:  EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+        child:  TextField(style:TextStyle(fontSize: 16,color:Color(0XFF0E2433),fontWeight: FontWeight.w400),
+        controller: loginController,
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+            hintText: !emailNode.hasFocus?"Login ou email":null,
+            labelText: emailNode.hasFocus?"Login":null,
+            labelStyle: TextStyle(color: Colors.grey[600],fontSize: 18,fontWeight: FontWeight.w400),
+            hintStyle: TextStyle(fontSize: 15,color: Color(0XFF0E2433),fontWeight: FontWeight.w400),
+            fillColor: Colors.grey[500],
+            border: emailNode.hasFocus?InputBorder.none:UnderlineInputBorder(),
+            prefixIcon:  Icon(Icons.mail_outline,color: Color(0XFF0E2433),),
+          ),
+          focusNode: emailNode,
+          maxLines: 1,
+          keyboardType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.next,
+          onSubmitted: (value){
+            FocusScope.of(context).requestFocus(passwordNode);
 
+          },
+        ),
+      ),
+    );
+  }
+  Container passwordText() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white70),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey[300],
+              blurRadius: 3,
+              offset: Offset(0,3),
+            )
+          ]),
+      child: Padding(
+        padding:  EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+        child:  TextField(style:TextStyle(fontSize: 14,color: Colors.grey[500],letterSpacing: 2),
+        controller: passwordController,
+          textAlignVertical: TextAlignVertical.center,
+          obscureText: true,
+          decoration: InputDecoration(
+            border: passwordNode.hasFocus?InputBorder.none:UnderlineInputBorder(),
+            hintText: !passwordNode.hasFocus?"*********":null,
+            labelText: passwordNode.hasFocus?"Password":null,
+            labelStyle: TextStyle(fontSize: 17,color: Color(0XFF0E2433),),
+            hintStyle: TextStyle(fontSize: 17,color: Color(0XFF0E2433),letterSpacing: 3),
+            fillColor: Colors.grey[500],
+            prefixIcon:  Icon(Icons.lock_outline,color: Color(0XFF0E2433),),
+          ),
+          focusNode: passwordNode,
+          maxLines: 1,
+          textInputAction: TextInputAction.go,
+          onSubmitted: (valeur){
+          passwordNode.unfocus();
+          },
+        ),
+      ),
+    );
+  }
   void loginInAdmin() async {
     try {
       Response userlogedin =

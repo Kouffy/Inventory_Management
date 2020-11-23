@@ -21,6 +21,7 @@ class _EffectuerInventaireState extends State<EffectuerInventaire> {
   String _data = "", libelleArt = "";
   List<Article> Nouvauxarts;
   List<Article> Ancienarts;
+  List<Article> Mouvedarts;
   Article article;
   getArticle(int idart) async {
     Response userres = await ArticleController.getArticleID(idart);
@@ -54,43 +55,63 @@ class _EffectuerInventaireState extends State<EffectuerInventaire> {
         Nouvauxarts.add(article);
         _data = "";
         article = null;
+      } else if (article != null && article.idEmplacement == this.id) {
+        libelleArt = article.libelleArticle;
+        Ancienarts.add(article);
+        _data = "";
+        article = null;
       }
     }
     return Scaffold(
-        floatingActionButton: _buildFloatingButton(),
-        appBar: AppBar(
-          title: Text('Les Commerciaux'),
-        ),
-        body: ListView(
-          children: [
-            Text('produit scanné : ' + libelleArt),
-            RaisedButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0.0),
-                onPressed: () {
-                  Inventaire inventaire = new Inventaire(this.id, DateTime.now().toString());
-                  InventaireController.postInventaire(inventaire);
-                  reportView(context);
-                },
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(colors: [
-                        Color.fromRGBO(143, 148, 251, 1),
-                        Color.fromRGBO(143, 148, 251, .6),
-                      ])),
-                  padding: EdgeInsets.all(10.0),
-                  child: Center(
-                    child: Text('Terminer L\'inventaire',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500)),
-                  ),
-                )),
+      floatingActionButton: _buildFloatingButton(),
+      appBar: AppBar(
+        title: Text('Effectuer un inventaires'),
+      ),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Center(
+                child: Text('Dernier Article scanné : ' + libelleArt),
+              ),
+            ),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              // fillOverscroll: true, // Set true to change overscroll behavior. Purely preference.
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    textColor: Colors.white,
+                    padding: const EdgeInsets.all(0.0),
+                    onPressed: () {
+                      Inventaire inventaire =
+                          new Inventaire(this.id, DateTime.now().toString());
+                      InventaireController.postInventaire(inventaire);
+                      reportView(context);
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: LinearGradient(colors: [
+                            Color.fromRGBO(143, 148, 251, 1),
+                            Color.fromRGBO(143, 148, 251, .6),
+                          ])),
+                      padding: EdgeInsets.all(10.0),
+                      child: Center(
+                        child: Text('Terminer L\'inventaire',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w500)),
+                      ),
+                    )),
+              ),
+            )
           ],
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _buildFloatingButton() {
